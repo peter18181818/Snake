@@ -1,0 +1,60 @@
+# depslib dependency file v1.0
+1488841257 source:d:\gry i programy\c cpp\workspace codeblocks\moje æwiczenia\7. snake\snake\main.cpp
+	<iostream>
+	<conio.h>
+	<cstdlib>
+	<ctime>
+	<windows.h>
+
+1492356309 source:c:\users\pkac\downloads\new folder\c c++ workspace\moje æwiczenia\7. snake\snake\main.cpp
+	<iostream>
+	<conio.h>
+	<cstdlib>
+	<ctime>
+	<windows.h>
+
+1493095836 source:d:\gry i programy\c cpp\workspace codeblocks\moje æwiczenia\7. snake\snake wersja fast\main.cpp
+	<iostream>
+	<conio.h>
+	<cstdlib>
+	<ctime>
+	<windows.h>
+
+1493095836 source:d:\programowanie\cpp\workspace codeblocks\moje æwiczenia\7. snake\snake wersja fast\main.cpp
+	<iostream>
+	<conio.h>
+	<cstdlib>
+	<ctime>
+	<windows.h>
+
+1493095836 source:d:\programowanie\cpp\workspace codeblocks\moje æwiczenia\7. snake wersja fast ang\main.cpp
+	<iostream>
+	<conio.h>
+	<cstdlib>
+	<ctime>
+	<windows.h>
+
+1497542044 source:d:\programowanie\cpp\workspace codeblocks\moje æwiczenia\7. snake wersja fast ang podzial\main.cpp
+	<iostream>
+	<conio.h>
+	<cstdlib>
+	<ctime>
+	<windows.h>
+
+1497879991 source:c:\projekty\private workspace codeblocks cpp\moje cwiczenia\7. snake wersja fast ang podzial\main.cpp
+	<iostream>
+	<conio.h>
+	<cstdlib>
+	<ctime>
+	<windows.h>
+	"functions.h"
+
+1497879831 source:c:\projekty\private workspace codeblocks cpp\moje cwiczenia\7. snake wersja fast ang podzial\functions.cpp
+	<iostream>
+	<cstdlib>
+	<windows.h>
+	<conio.h>
+	"functions.h"
+
+1497880012 c:\projekty\private workspace codeblocks cpp\moje cwiczenia\7. snake wersja fast ang podzial\functions.h
+
