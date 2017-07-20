@@ -58,3 +58,20 @@
 
 1497880012 c:\projekty\private workspace codeblocks cpp\moje cwiczenia\7. snake wersja fast ang podzial\functions.h
 
+1497879831 source:c:\users\piotr.kaczorowski\desktop\snake\functions.cpp
+	<iostream>
+	<cstdlib>
+	<windows.h>
+	<conio.h>
+	"functions.h"
+
+1497880012 c:\users\piotr.kaczorowski\desktop\snake\functions.h
+
+1497879991 source:c:\users\piotr.kaczorowski\desktop\snake\main.cpp
+	<iostream>
+	<conio.h>
+	<cstdlib>
+	<ctime>
+	<windows.h>
+	"functions.h"
+
