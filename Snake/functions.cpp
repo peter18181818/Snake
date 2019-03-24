@@ -10,21 +10,21 @@ void board_filling(int & board_width, int & board_height, char ** board, int & s
     for (int i=0; i<board_height; i++)
     {
         for (int j=0; j<board_width; j++)
-            board[j][i] = 'p'; // puste pola
+            board[j][i] = 'e'; // empty space on game board
     }
 
-    snake_x_coordinate = rand()%(board_width-4)+1; // losowanie wspolrzedniej X glowy weza // lub rand()%((board_width-5)-0+1)+0
-    snake_y_coordinate = rand()%(board_height-4)+1; // losowanie wspolrzedniej Y glowy weza
-    board[snake_x_coordinate][snake_y_coordinate] = 'w'; // przypisanie glowy weza do pola planszy
+    snake_x_coordinate = rand()%(board_width-4)+1; // X coordinate of snake head drawing
+    snake_y_coordinate = rand()%(board_height-4)+1; // Y coordinate of snake head drawing
+    board[snake_x_coordinate][snake_y_coordinate] = 's'; // assigning a snake head to the game board
 
     do
     {
-        food_x_coordinate = rand()%board_width; // losowanie wspolrzedniej X jedzenia // lub rand()%((board_width-1)-0+1)+0
-        food_y_coordinate = rand()%board_height; // losowanie wspolrzedniej Y jedzenia
-        if(board[food_x_coordinate][food_y_coordinate] == 'p') // sprawdzenie czy wylosowane dla jedzenia pole jest puste/nie zajete przez weza
-            board[food_x_coordinate][food_y_coordinate] = 'j'; // przypisanie jedzenia do pola planszy
+        food_x_coordinate = rand()%board_width; // X coordinate of food drawing
+        food_y_coordinate = rand()%board_height; // Y coordinate of food drawing
+        if(board[food_x_coordinate][food_y_coordinate] == 'e') // check if there is no snake on space for food
+            board[food_x_coordinate][food_y_coordinate] = 'f'; // assigning food to the game board
     }
-    while(board[food_x_coordinate][food_y_coordinate] != 'j');
+    while(board[food_x_coordinate][food_y_coordinate] != 'f');
 }
 
 void start_screen()
@@ -42,12 +42,12 @@ void start_screen()
 void tail_deleting(int x1[], int y1[], int & counter, int & snake_x_coordinate, int & snake_y_coordinate)
 {
     counter++;
-    x1[counter] = snake_x_coordinate; // zapisanie informacji w jakim polu znajdowala sie glowa weza w kazdej iteracji
-    y1[counter] = snake_y_coordinate; // zapisanie informacji w jakim polu znajdowala sie glowa weza w kazdej iteracji
+    x1[counter] = snake_x_coordinate; // saving snake X coordinate in each iteration
+    y1[counter] = snake_y_coordinate; // saving snake X coordinate in each iteration
 }
 
-void cursor_return(int x, int y) // ta funkcja niweluje miganie ekranu przy rysowaniu planszy
-{                                // kursor wraca do poczatku planszy
+void cursor_return(int x, int y) // this function cancel game board flickering when board is created
+{                                // set cursor on the board beginning
     HANDLE hCon;
     COORD dwPos;
 
@@ -61,75 +61,74 @@ void cursor_return(int x, int y) // ta funkcja niweluje miganie ekranu przy ryso
 void board_drawing(int & board_width, int & board_height, char ** board, char & corner_up_left, char & corner_up_right,
                    char & corner_down_left, char & corner_down_right, char & frame_horizontal, char & frame_vertical, char & snake, char & food)
 {
-    cout << corner_up_left; // lewy gorny rog
+    cout << corner_up_left;
     for (int i=0; i<board_width; i++)
-        cout << frame_horizontal << frame_horizontal; // gorna ramka
-    cout << corner_up_right; // prawy gorny rog
-
+        cout << frame_horizontal << frame_horizontal; // upper frame
+    cout << corner_up_right;
     for (int i=0; i<board_height; i++)
     {
-        cout << endl << frame_vertical; // lewa ramka
+        cout << endl << frame_vertical; // left frame
         for (int j=0; j<board_width; j++)
         {
-            if(board[j][i] == 'p') cout << "  "; // puste pola
-            if(board[j][i] == 'w') cout << snake << snake; // waz
-            if(board[j][i] == 'j') cout << food << food; // jedzenie
+            if(board[j][i] == 'e') cout << "  "; // empty space on board
+            if(board[j][i] == 's') cout << snake << snake; // snake on board
+            if(board[j][i] == 'f') cout << food << food; // food on board
         }
-        cout << frame_vertical; // prawa ramka
+        cout << frame_vertical; // right frame
     }
     cout << endl;
 
-    cout << corner_down_left; // lewy dolny rog
+    cout << corner_down_left;
     for (int i=0; i<board_width; i++)
-        cout << frame_horizontal << frame_horizontal; // dolna ramka
-    cout << corner_down_right; // prawy dolny rog
+        cout << frame_horizontal << frame_horizontal; // lower frame
+    cout << corner_down_right;
 
 }
 
-void snake_speed(int & snake_lenght, int & speed)
+void snake_speed(int & snake_length, int & speed) // speed is rising with snake length
 {
-    if (snake_lenght >= 10 ) speed = 75;
-    if (snake_lenght >= 20 ) speed = 65;
-    if (snake_lenght >= 30 ) speed = 55;
-    if (snake_lenght >= 40 ) speed = 45;
+    if (snake_length >= 10 ) speed = 75;
+    if (snake_length >= 20 ) speed = 65;
+    if (snake_length >= 30 ) speed = 55;
+    if (snake_length >= 40 ) speed = 45;
 
-    cout << "\n\n\n\t\t  Points (snake length): " << snake_lenght << endl; // wypisuje dlugosc weza(punkty) na ekran
+    cout << "\n\n\n\t\t  Points (snake length): " << snake_length << endl; // showing snake length (points) on the screen
 }
 
 void snake_move(int & button, int & direction, int & snake_x_coordinate, int & snake_y_coordinate)
 {
-    if(kbhit()) // jesli zostanie wcisniety klawisz na klawiaturze
+    if(kbhit()) // if any keyboard key is hit
     {
         button = getch();
-        if ((button == 80) || (button == 112)) // Pauza
+        if ((button == 80) || (button == 112)) // Pause
         {
             cout << "\n\t\t      PAUSE (press P key to continue) " << endl;
             getch();
-            system("CLS"); // czyszczenie ekranu po zakonczeniu pauzy
+            system("CLS"); // clear screen after pause
         }
         if (button == 224)
             button += getch();
         switch(button)
         {
-        case 296: // klawisz strzalka w gore
+        case 296: // up key
             if ((button == 296) && ((direction == 3) || (direction == 4)))
             {
                 direction=1;
                 break;
             }
-        case 304: // kalwisz strzalka w dol
+        case 304: // down key
             if ((button == 304) && ((direction == 3) || (direction == 4)))
             {
                 direction=2;
                 break;
             }
-        case 299: // klawisz strzalka w lewo
+        case 299: // left key
             if ((button == 299) && ((direction == 1) || (direction == 2)))
             {
                 direction=3;
                 break;
             }
-        case 301: // klawisz strzalka w prawo
+        case 301: // right key
             if ((button == 301) && ((direction == 1) || (direction == 2)))
             {
                 direction=4;
@@ -138,29 +137,29 @@ void snake_move(int & button, int & direction, int & snake_x_coordinate, int & s
         };
     }
 
-    if (direction == 1) snake_y_coordinate--; // ruch w gore
-    else if (direction == 2) snake_y_coordinate++; // ruch w dol
-    else if (direction == 3) snake_x_coordinate--; // ruch w lewo
-    else if (direction == 4) snake_x_coordinate++; // ruch w prawo
+    if (direction == 1) snake_y_coordinate--; // up direction
+    else if (direction == 2) snake_y_coordinate++; // down direction
+    else if (direction == 3) snake_x_coordinate--; // left direction
+    else if (direction == 4) snake_x_coordinate++; // right direction
 }
 
 void food_collision(int & board_width, int & board_height, char ** board, int & snake_x_coordinate, int & snake_y_coordinate,
-                    int & food_x_coordinate, int & food_y_coordinate, int & snake_lenght, int x1[], int y1[], int & counter)
+                    int & food_x_coordinate, int & food_y_coordinate, int & snake_length, int x1[], int y1[], int & counter)
 {
     if ((snake_x_coordinate == food_x_coordinate) && (snake_y_coordinate == food_y_coordinate))
     {
-        snake_lenght++;
+        snake_length++;
         do
         {
-            food_x_coordinate = rand()%board_width; // losowanie wspolrzedniej X jedzenia // lub rand()%((board_width-1)-0+1)+0
-            food_y_coordinate = rand()%board_height; // losowanie wspolrzedniej Y jedzenia
-            if(board[food_x_coordinate][food_y_coordinate] == 'p') // sprawdzenie czy wylosowane dla jedzenia pole jest puste/nie zajete przez weza
-                board[food_x_coordinate][food_y_coordinate] = 'j'; // przypisanie jedzenia do pola planszy
+            food_x_coordinate = rand()%board_width; // X coordinate of food drawing
+            food_y_coordinate = rand()%board_height; // Y coordinate of food drawing
+            if(board[food_x_coordinate][food_y_coordinate] == 'e') // check if there is no snake on space for food
+                board[food_x_coordinate][food_y_coordinate] = 'f'; // assigning food to the game board
         }
-        while(board[food_x_coordinate][food_y_coordinate] != 'j');
+        while(board[food_x_coordinate][food_y_coordinate] != 'f');
     }
     else
-        board[x1[counter-snake_lenght+1]][y1[counter-snake_lenght+1]] = 'p'; //kasowanie ogona jesli nie ma kolizji z jedzeniem
+        board[x1[counter-snake_length+1]][y1[counter-snake_length+1]] = 'e'; // snake tail clearing if there is no collision with food
 }
 
 bool wall_collision(int & snake_x_coordinate, int & snake_y_coordinate, int & board_width, int & board_height)
@@ -177,14 +176,14 @@ bool wall_collision(int & snake_x_coordinate, int & snake_y_coordinate, int & bo
 
 bool tail_collision(char ** board, int & snake_x_coordinate, int & snake_y_coordinate)
 {
-    if (board[snake_x_coordinate][snake_y_coordinate]=='w')
+    if (board[snake_x_coordinate][snake_y_coordinate]=='s')
     {
         cout << "\n\t\t    Snake hit his tail " << endl << endl;
         return 1;
     }
     else
     {
-        board[snake_x_coordinate][snake_y_coordinate] = 'w'; // zmiana polozenia glowy weza w zaleznosci od kierunku ruchu
+        board[snake_x_coordinate][snake_y_coordinate] = 's'; // changing head position according to moving direction
         return 0;
     }
 

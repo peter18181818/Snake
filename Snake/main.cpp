@@ -14,18 +14,18 @@ int main()
     int board_height = 20;//14;//41;
     int snake_x_coordinate, snake_y_coordinate;
     int food_x_coordinate, food_y_coordinate;
-    int counter = 0; // liczy ile razy wykonalo sie rysowanie planszy
-    int snake_lenght = 3; // przechowuje dlugosc weza
-    int x1[20000], y1[20000]; // przechowuje wszystkie dotychczasowe wspolrzedne X i Y weza
-    int button; // przechowuje klawisz wcisniety w celu zmiany kierunku weza
-    int direction = 4; // przechowuje kierunek ruchu weza, wartosc 4 oznacza domyslny ruch w prawo
-    char snake = 219; // znak do rysowania weza
-    char food = 176; // znak do rysowania jedzenia
-    char frame_horizontal = 205, frame_vertical = 186; // znaki do rysowania ramki
-    char corner_up_right = 187, corner_up_left = 201, corner_down_right = 188, corner_down_left = 200; // znaki do rysowania rogow planszy
-    int speed = 125; // przechowuje predkosc gry (zmienna do funkcji sleep())
+    int counter = 0; // to count how many times game board was generated
+    int snake_lenght = 3;
+    int x1[20000], y1[20000]; // stores all snake coordinates X and Y
+    int button; // stores key pressed to change snake direction
+    int direction = 4; // stores snake direction, value 4 is default right direction
+    char snake = 219; // char for snake drawing
+    char food = 176; // char for food drawing
+    char frame_horizontal = 205, frame_vertical = 186; // char for game board frame drawing
+    char corner_up_right = 187, corner_up_left = 201, corner_down_right = 188, corner_down_left = 200; // char for game board corners drawing
+    int speed = 125; // stores game speed (how fast snake is moving)
 
-    char ** board = new char * [board_width]; // alokacja dynamiczna tablicy (planszy)
+    char ** board = new char * [board_width]; // dynamic allocation of game board
 
     for (int i=0; i<board_width; i++)
         board[i] = new char [board_height];
@@ -39,60 +39,60 @@ int main()
          .
          {board[0][board_height], board[1][board_height], board[2][board_height], ......, board[board_width][board_height]}};
 
-         Legenda dla tablicy/planszy:
-         p - puste pole;
-         w - na tym polu jest snake;
-         j - na tym polu jest jedzenie;
+         Legend:
+         e - empty space
+         s - snake
+         f - food
     */
 
-    // wypelnianie planszy/tablicy - wywolanie funkcji
+    // filling up game board
     board_filling(board_width, board_height, board, snake_x_coordinate, snake_y_coordinate, food_x_coordinate, food_y_coordinate);
 
-    // komunikaty przed rozpoczeciem gry - wywolanie funkcji
+    // messages on start screen
     start_screen();
 
-    system("CLS"); // czyszczenie ekranu przed rozpoczeciem gry
+    system("CLS"); // clearing screen before game starts
 
-    //poczatek gry *******************************************************************************************************************
+    //game start *******************************************************************************************************************
 
-    for(;;) // rysowanie planszy na nowo w kazdej iteracji
+    for(;;) // game board is generating in each iteration
     {
-        // kasowanie ogona weza - wywolanie funkcji
+        // clearing snake tail
         tail_deleting(x1,y1,counter, snake_x_coordinate, snake_y_coordinate);
 
-        // rysowanie planszy/tablicy - wywolanie dwoch funkcji
-        cursor_return(0,0); // czyszczenie ekranu bez "migania" // kursor wraca na poczatek planszy
+        // board drawing
+        cursor_return(0,0); // screen clearing without flickering // cursor is coming back to board beginning
         board_drawing(board_width, board_height, board, corner_up_left, corner_up_right, corner_down_left, corner_down_right, frame_horizontal, frame_vertical, snake, food);
 
-        // zmiana prędkosci gry w zaleznosci od dlugosci weza - wywolanie funkcji
+        // snake speed changes accordingly to snake length
         snake_speed(snake_lenght, speed);
 
-        // opoznienie (w milisekundach) sluzy do sterowania predokoscia gry
+        // delay (in milliseconds) to change game speed (snake speed)
         Sleep(speed);
 
-        // poruszanie sie weza - wywolanie funkcji
+        // snake moving
         snake_move(button, direction, snake_x_coordinate, snake_y_coordinate);
 
-        // kolizja weza z jedzeniem
+        // snake collision with food
         food_collision(board_width, board_height, board, snake_x_coordinate, snake_y_coordinate, food_x_coordinate, food_y_coordinate, snake_lenght, x1, y1, counter);
 
-        // kolizja weza ze sciana
+        // snake collision with wall
         if (wall_collision(snake_x_coordinate, snake_y_coordinate, board_width, board_height) == 1)
             break;
 
-        // kolizja weza z ogonem
+        // snake collision with tail
         if (tail_collision(board, snake_x_coordinate, snake_y_coordinate) == 1)
             break;
     }
 
-    //komunikat po zakonczeniu gry ****************************************************************************************************
+    //messages on end screen ****************************************************************************************************
 
     cout << "\t\t\t GAME OVER" << endl << endl;
 
     for (int i=0; i<board_width; i++)
         delete [] board[i];
 
-    delete [] board; // kasowanie zaalokowanej dynamicznie tablicy (planszy)
+    delete [] board; // deleting dynamic allocated board
 
     getch();
     return 0;

@@ -75,3 +75,20 @@
 	<windows.h>
 	"functions.h"
 
+1553088144 source:c:\users\piotr.kaczorowski\desktop\new folder (2)\snake\snake\main.cpp
+	<iostream>
+	<conio.h>
+	<cstdlib>
+	<ctime>
+	<windows.h>
+	"functions.h"
+
+1553088144 c:\users\piotr.kaczorowski\desktop\new folder (2)\snake\snake\functions.h
+
+1553433345 source:c:\users\piotr.kaczorowski\desktop\new folder (2)\snake\snake\functions.cpp
+	<iostream>
+	<cstdlib>
+	<windows.h>
+	<conio.h>
+	"functions.h"
+
